@@ -1,0 +1,298 @@
+class HDMafiaHandler : EventHandler
+{
+	int playersin;
+	int messagetic;
+	actor murderer;
+	bool gamestarting;
+	bool fiveseconds;
+	bool gamestarted;
+	int innocents;
+	int halfofinnocents;
+	bool innovictor;
+	bool murdvictor;
+	actor murderera;
+	actor murdererb;
+	bool murdereraout;
+	bool murdererbout;
+	bool trackerreceived;
+	int tracktimer;
+
+	override void OnRegister()
+	{
+		//force loadout of green armor and
+		//starting goodies, for good measure.
+		CVar dm = CVar.GetCVar('deathmatch');
+		CVar fl = CVar.GetCVar('fraglimit');
+		CVar hdfl = CVar.GetCVar('hd_forceloadout');
+		CVar nl = CVar.GetCVar('hd_noloadout');
+		CVar hddeod = CVar.GetCVar('hd_dropeverythingondeath'); //wow such cvar
+
+		bool isindm=dm.getbool();
+		bool islms=fl.getint()==100;
+		bool deod=hddeod.getbool();
+		bool hasforcedloadout=hdfl.getstring()~=="awg,med,pis,915 1";
+		bool hdnl=nl.getstring()~=="lau,bfg,thu,lib,brb,710,730,7mm,bro,all";
+
+		if(!isindm)object.throwabortexception(StringTable.Localize("$HDMABORT_DEATHMATCH"));
+		if(!islms)object.throwabortexception(StringTable.Localize("$HDMABORT_LIVES"));
+		if(!hasforcedloadout)hdfl.setstring("awg,med,pis,915 1");
+		if(!hdnl)nl.setstring("lau,bfg,thu,lib,brb,710,730,7mm,bro,all");
+		if(!deod)hddeod.SetBool(true);
+	}
+
+	override void WorldLoaded(WorldEvent e)
+	{
+		for(int i=0;i<MAXPLAYERS;i++){
+			if(
+				!playeringame[i]
+				||players[i].bot
+			)continue;
+			let ppp=players[i].mo;
+			if(ppp){
+				playersin++;
+			}
+		}
+		if(playersin<=1)destroy(); //destroy if there aren't any players.
+		gamestarting=true;
+	}
+
+	override void PlayerDied(PlayerEvent e)
+	{
+		Let pl = players[e.PlayerNumber].mo;
+		if(pl&&players[e.PlayerNumber].bot)return; //don't count bots. thanks dizzy ^^
+		if((murderer&&pl!=murderer)||(murderera&&pl!=murderera)||(murdererb&&pl!=murdererb)){
+			innocents--;
+				if(innocents<2&&murderer&&!trackerreceived){
+					murderer.A_Log("$HDM_TRACKERREC",true);
+					murderer.A_GiveInventory("HDMTracker",1);
+					trackerreceived=true;
+					}
+				else if(innocents<2&&!trackerreceived){
+					if(murderera){
+						murderera.A_Log("$HDM_TRACKERREC",true);
+						murderera.A_GiveInventory("HDMTracker",1);
+					}
+					if(murdererb){
+						murdererb.A_Log("$HDM_TRACKERREC",true);
+						murdererb.A_GiveInventory("HDMTracker",1);
+					}
+					if(murderera||murdererb)trackerreceived=true;
+				}
+			if(halfofinnocents){
+				if(innocents==halfofinnocents)
+				console.printf(StringTable.Localize("$HDM_INNODECREASE"));
+			}
+		}else if(murderer&&pl==murderer){
+			console.printf(StringTable.Localize("$HDM_MURDDEAD"));
+			innovictor=true;
+			return;
+		}else if((murderera||murdererb)&&((pl==murderera)||(pl==murdererb))){
+			console.printf(StringTable.Localize("$HDM_MURDDEAD2"));
+			if(pl==murderera)murdereraout=true;
+			if(pl==murdererb)murdererbout=true;
+			if(murdereraout||murdererbout){
+	console.printf(StringTable.Localize("$HDM_MURDDEAD2B"));
+			innovictor=true;
+			}
+			return;
+		}
+		if(innocents<1&&murderer){
+			console.printf(StringTable.Localize("$HDM_MURDWON"));
+			murdvictor=true;
+			return;
+			//HDGlobalLivesCounter.Reset(pl);
+		}else if(innocents<1&&(murderera||murdererb)){
+			console.printf(StringTable.Localize("$HDM_MURDWON2"));
+			murdvictor=true;
+			//HDGlobalLivesCounter.Reset(pl);
+		}
+	}
+
+	override void PlayerDisconnected(PlayerEvent e)
+	{
+		//recalculate
+		playersin=0;
+		for(int i=0;i<MAXPLAYERS;i++){
+			if(
+				!playeringame[i]
+				||players[i].bot
+			)continue;
+			let ppp=players[i].mo;
+			if(ppp){
+				playersin++;
+			}
+		}
+		if(playersin<2){console.printf(StringTable.Localize("$HDM_NOPLAYERS"));destroy();return;}
+		if(!gamestarted||innovictor||murdvictor)return;
+		Let pl = players[e.PlayerNumber].mo;
+		if((murderer&&pl!=murderer)||(murderera&&pl!=murderera)||(murdererb&&pl!=murdererb)){
+			innocents--;
+				if(innocents<2&&murderer&&!trackerreceived){
+					murderer.A_Log("$HDM_TRACKERREC",true);
+					murderer.A_GiveInventory("HDMTracker",1);
+					trackerreceived=true;
+					}
+				else if(innocents<2&&!trackerreceived){
+					if(murderera){
+						murderera.A_Log("$HDM_TRACKERREC",true);
+						murderera.A_GiveInventory("HDMTracker",1);
+					}
+					if(murdererb){
+						murdererb.A_Log("$HDM_TRACKERREC",true);
+						murdererb.A_GiveInventory("HDMTracker",1);
+					}
+					if(murderera||murdererb)trackerreceived=true;
+				}
+			if(halfofinnocents){
+				if(innocents==halfofinnocents)
+				console.printf(StringTable.Localize("$HDM_INNODECREASE"));
+			}
+		}else if(murderer&&pl==murderer){
+			console.printf(StringTable.Localize("$HDM_MURDGONE"));
+			innovictor=true;
+			return;
+		}else if((murderera||murdererb)&&((pl==murderera)||(pl==murdererb))){
+			console.printf(StringTable.Localize("$HDM_MURDGONE2"));
+			if(pl==murderera)murdereraout=true;
+			if(pl==murdererb)murdererbout=true;
+			if(murdereraout||murdererbout){
+	console.printf(StringTable.Localize("$HDM_MURDGONE2B"));
+			innovictor=true;
+			return;
+			}
+		}
+		if(innocents<1&&murderer){
+			console.printf(StringTable.Localize("$HDM_MURDWON"));
+			murdvictor=true;
+			return;
+			//HDGlobalLivesCounter.Reset(pl);
+		}else if(innocents<1&&(murderera||murdererb)){
+			console.printf(StringTable.Localize("$HDM_MURDWON2"));
+			murdvictor=true;
+			//HDGlobalLivesCounter.Reset(pl);
+		}
+	}
+
+	override void WorldTick()
+	{
+		if(gamestarting||innovictor||murdvictor){
+		for ( int i=0; i<MAXPLAYERS; i++ ) if ( playeringame[i] ) players[i].cheats |=CF_GODMODE2;
+		}
+		if(gamestarted&&!trackerreceived&&(!innovictor||!murdvictor))tracktimer++;
+		if(gamestarted&&!trackerreceived&&tracktimer==35*300&&(!innovictor||!murdvictor)){
+				if(murderera||murdererb){
+					if(murderera){
+						murderera.A_Log(StringTable.Localize("$HDM_TRACKERREC")..StringTable.Localize("$HDM_TRACKERREC3"),true);
+						murderera.A_GiveInventory("HDMTracker",1);
+					}
+					if(murdererb){
+						murdererb.A_Log(StringTable.Localize("$HDM_TRACKERREC")..StringTable.Localize("$HDM_TRACKERREC3"),true);
+						murdererb.A_GiveInventory("HDMTracker",1);
+					}
+					if(murderera||murdererb)trackerreceived=true;
+				}else if(murderer){
+						murderer.A_Log(StringTable.Localize("$HDM_TRACKERREC")..StringTable.Localize("$HDM_TRACKERREC3"),true);
+					murderer.A_GiveInventory("HDMTracker",1);
+					trackerreceived=true;
+					}
+			}
+
+		if(gamestarting||innovictor||murdvictor)messagetic++;
+		if(gamestarting&&messagetic==350){
+			console.printf(StringTable.Localize("$HDM_TENSECONDS"));
+			//gamestarting=false;
+			messagetic==0;
+		}
+		if(gamestarting&&messagetic==525){
+			console.printf(StringTable.Localize("$HDM_FIVESECONDS"));
+			fiveseconds=true;
+		}
+		if(gamestarting&&messagetic==700){
+			gamestarted=true;
+			gamestarting=false;
+			for ( int i=0; i<MAXPLAYERS; i++ ) if ( playeringame[i] ) players[i].cheats&=~CF_GODMODE2;
+			messagetic==0;
+			if(playersin>=7&&!random(0,4)){
+			console.printf(StringTable.Localize("$HDM_GAMESTARTED2"));
+			murderera=players[random(0,playersin-1)].mo;
+			murdererb=players[random(0,playersin-1)].mo;
+			//ha, checkmate RNG
+			if(murdererb==murderera)murdererb=players[random(0,playersin-1)].mo;
+	if(murdererb==murderera)murdererb=players[random(0,playersin-1)].mo;
+	if(murdererb==murderera)murdererb=players[random(0,playersin-1)].mo;
+
+			if(murderera){
+		string sus=StringTable.Localize("$HDM_SUSSYBAKA");
+		let buddy=murdererb.gettag();
+		sus.replace("$TEAMMATE",buddy);
+			murderera.A_Log(sus,true);
+			murderera.A_GiveInventory("HDMKnife",1);
+			murderera.A_GiveInventory("HDMKeyGiver",1);
+			}
+			if(murdererb){
+		string sus=StringTable.Localize("$HDM_SUSSYBAKA");
+		let buddy=murderera.gettag();
+		sus.replace("$TEAMMATE",buddy);
+			murdererb.A_Log(sus,true);
+			murdererb.A_GiveInventory("HDMKnife",1);
+			murdererb.A_GiveInventory("HDMKeyGiver",1);
+			}
+			innocents=playersin-2;
+				if(innocents<2&&!trackerreceived){
+					if(murderera){
+						murderera.A_Log(StringTable.Localize("$HDM_TRACKERREC")..StringTable.Localize("$HDM_TRACKERREC2"),true);
+						murderera.A_GiveInventory("HDMTracker",1);
+					}
+					if(murdererb){
+						murdererb.A_Log(StringTable.Localize("$HDM_TRACKERREC")..StringTable.Localize("$HDM_TRACKERREC2"),true);
+						murdererb.A_GiveInventory("HDMTracker",1);
+					}
+					if(murderera||murdererb)trackerreceived=true;
+				}
+			}else{
+			console.printf(StringTable.Localize("$HDM_GAMESTARTED"));
+			murderer=players[random(0,playersin-1)].mo;
+			if(murderer){
+				murderer.A_Log("$HDM_SUSAMOGUS",true);
+				innocents=playersin-1;
+				murderer.A_GiveInventory("HDMKnife",1);
+				murderer.A_GiveInventory("HDMKeyGiver",1);
+				if(innocents<2&&!trackerreceived){
+						murderer.A_Log(StringTable.Localize("$HDM_TRACKERREC")..StringTable.Localize("$HDM_TRACKERREC2"),true);
+					murderer.A_GiveInventory("HDMTracker",1);
+					trackerreceived=true;
+					}
+				}
+			}
+			if(innocents>=4)halfofinnocents=innocents/2;
+		for(int i=0;i<MAXPLAYERS;i++){
+			if(
+				!playeringame[i]
+				||players[i].bot
+			)continue;
+			let ppp=players[i].mo;
+			if(ppp&&(ppp==murderer||ppp==murderera||ppp==murdererb))continue;
+				ppp.A_TakeInventory("RedCard",1);
+				ppp.A_TakeInventory("YellowCard",1);
+				ppp.A_TakeInventory("BlueCard",1);
+				ppp.A_TakeInventory("RedSkull",1);
+				ppp.A_TakeInventory("YellowSkull",1);
+				ppp.A_TakeInventory("BlueSkull",1);
+		}
+		if((innovictor||murdvictor)&&messagetic==1050){
+			Level.ExitLevel(0, false);
+			murdvictor=false;
+			messagetic==0;
+			innovictor=false;
+			}
+		}
+	}
+
+	override void WorldThingSpawned(WorldEvent e)
+	{
+			if(!e.Thing)return;
+
+			BossRifle Ross=BossRifle(e.thing);
+			if(ross)ross.weaponstatus[BOSSS_MAG]=0;
+	}
+}

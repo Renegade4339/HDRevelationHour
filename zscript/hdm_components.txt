@@ -1,0 +1,60 @@
+class HDMKeyGiver:HDPickup{
+    default{
+        -hdpickup.fitsinbackpack
+        tag "All keys";
+    }
+    states{
+    spawn:
+        PINS A -1; stop;
+    pickup:
+        TNT1 A 0 A_GiveInventory("RedCard",1);
+        TNT1 A 0 A_GiveInventory("YellowCard",1);
+        TNT1 A 0 A_GiveInventory("BlueCard",1);
+       TNT1 A 0 A_GiveInventory("RedSkull",1);
+        TNT1 A 0 A_GiveInventory("YellowSkull",1);
+        TNT1 A 0 A_GiveInventory("BlueSkull",1);
+        fail;
+    }
+}
+
+class HDMTracker : Inventory
+{
+	actor nearestinnocent;
+	int tictimer;
+	Default
+	{
+		+inventory.undroppable
+		inventory.maxamount 1;
+	}
+	override void doeffect(){
+		super.doeffect();
+		tictimer++;
+		if(tictimer<70)return;
+		actor trgt=null;
+			for(int i=0;i<MAXPLAYERS;i++){
+				if(
+					!playeringame[i]
+					||players[i].bot
+				)continue;
+				let ppp=players[i].mo;
+				if(ppp){
+					if(
+						hdspectator(ppp)
+						||ppp==owner
+						||ppp.health<1
+					)continue;
+					if(distance3d(ppp)<HDCONST_ONEMETRE*150)trgt=ppp;
+					else trgt=ppp;
+					if(trgt){
+					vector3 dist=owner.pos-ppp.pos;
+					double dist2=max(abs(dist.x),abs(dist.y));
+					double hdist=dist2/HDCONST_ONEMETRE;
+					double vdist=dist.z/HDCONST_ONEMETRE;
+
+					owner.A_Log(StringTable.Localize("$HDM_TRACKER1")..hdist..StringTable.Localize("$HDM_TRACKER2")..vdist..StringTable.Localize("$HDM_TRACKER3"),true);
+				}
+			}
+		}
+		tictimer=0;
+	}
+}
