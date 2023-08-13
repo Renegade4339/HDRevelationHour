@@ -1,0 +1,3 @@
+$random weapons/shank {knife/shank1 knife/shank2}
+knife/shank1 Sounds/knife_shank1.wav
+knife/shank2 Sounds/knife_shank2.wav

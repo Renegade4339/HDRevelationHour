@@ -1,0 +1,67 @@
+[enu]
+HDM_TRACKER2=" meters horizontal, ";
+HDM_TRACKER3=" meters vertical.";
+
+[en enc eng eni ena enz default]
+
+//Thingies
+HDMABORT_DEATHMATCH="Not in deathmatch. Restart the game with deathmatch enabled.";
+HDMABORT_LIVES="Not in one life Last Man Standing. Restart the game with the fraglimit set to 100.";
+
+HDM_NOPLAYERS="Not enough players. Aborting.";
+HDM_INNODECREASE="\cgThe number of innocents are decreasing...";
+
+//Intro
+HDM_TENSECONDS="The game will begin in 10 seconds. Be ready...";
+HDM_FIVESECONDS="5 seconds...";
+
+//One murderer mode
+HDM_GAMESTARTED="\cgA murderer has been selected...";
+HDM_SUSAMOGUS="\cr...and you are the murderer.";
+HDM_MURDDEAD="The murderer is now dead.";
+HDM_MURDGONE="The murderer is now gone.";
+HDM_MURDWON="\crThe murderer has won the game...";
+
+//Two murderers mode
+HDM_MURDDEAD2="A murderer is now dead.";
+HDM_MURDGONE2="A murderer is now gone.";
+HDM_MURDDEAD2B="The murderers are now dead.";
+HDM_MURDGONE2B="The murderers are now gone.";
+HDM_MURDWON2="\crThe murderers have won the game...";
+HDM_GAMESTARTED2="\cgTwo murderers have been selected...";
+HDM_SUSSYBAKA="\cr...and both you and $TEAMMATE are the murderers.";
+
+//Knife
+PICKUP_HDMKNIFE="You got your knife back!";
+TAG_HDMKNIFE="Knife";
+
+//Tracker
+HDM_TRACKER1="Nearest player distance: ";
+HDM_TRACKER2=" metres horizontal, ";
+HDM_TRACKER3=" metres vertical.";
+HDM_TRACKERREC="The tracker is now enabled.";
+HDM_TRACKERREC2=" There isn't much innocents.";
+HDM_TRACKERREC3=" It's been so long now.";
+//HDM_TRACKERREC3=" It's been so long since an innocent lost to someone... or someone, to the person behind the slaughter.";
+
+//Obituaries
+OB_DERP="Congratulations! %o has died.";
+OB_HERP="Congratulations! %o has died.";
+OB_IED="Congratulations! %o has died.";
+OB_BFG9000ID="%Congratulations! %o has died.";
+OB_BFG9000="Congratulations! %o has died.";
+OB_BOSS="Congratulations! %o has died.";
+OB_BRONTO="Congratulations! %o has died.";
+OB_ROCKET="Congratulations! %o has died.";
+OB_LIB="Congratulations! %o has died.";
+OB_VULC="Congratulations! %o has died.";
+OB_ZM66="Congratulations! %o has died.";
+OB_SMG="Congratulations! %o has died.";
+OB_REVOLVER="Congratulations! %o has died.";
+OB_PISTOL="Congratulations! %o has died.";
+OB_FIST="Congratulations! %o has died.";
+OB_THUNDERBUSTER="Congratulations! %o has died.";
+OB_BLOOPER="Congratulations! %o has died.";
+OB_MPSSHOTGUN="Congratulations! %o has died.";
+OB_MPSHOTGUN="Congratulations! %o has died.";
+OB_MPBFG_BOOM="Congratulations! %o has died.";
