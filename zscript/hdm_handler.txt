@@ -90,7 +90,7 @@ class HDMafiaHandler : EventHandler
 			console.printf(StringTable.Localize("$HDM_MURDDEAD2"));
 			if(pl==murderera)murdereraout=true;
 			if(pl==murdererb)murdererbout=true;
-			if(murdereraout||murdererbout){
+			if(murdereraout&&murdererbout){
 	console.printf(StringTable.Localize("$HDM_MURDDEAD2B"));
 			innovictor=true;
 			}
@@ -155,7 +155,7 @@ class HDMafiaHandler : EventHandler
 			console.printf(StringTable.Localize("$HDM_MURDGONE2"));
 			if(pl==murderera)murdereraout=true;
 			if(pl==murdererb)murdererbout=true;
-			if(murdereraout||murdererbout){
+			if(murdereraout&&murdererbout){
 	console.printf(StringTable.Localize("$HDM_MURDGONE2B"));
 			innovictor=true;
 			return;
