@@ -31,12 +31,12 @@ class HDMafiaHandler : EventHandler
 		bool islms=fl.getint()==100;
 		bool deod=hddeod.getbool();
 		bool hasforcedloadout=hdfl.getstring()~=="awg,med,pis,915 1";
-		bool hdnl=nl.getstring()~=="lau,bfg,thu,lib,brb,710,730,7mm,bro,all";
+		bool hdnl=nl.getstring()~=="lau,bfg,thu,lib,brb,710,730,7mm,bro,vul,all";
 
 		if(!isindm)object.throwabortexception(StringTable.Localize("$HDMABORT_DEATHMATCH"));
 		if(!islms)object.throwabortexception(StringTable.Localize("$HDMABORT_LIVES"));
 		if(!hasforcedloadout)hdfl.setstring("awg,med,pis,915 1");
-		if(!hdnl)nl.setstring("lau,bfg,thu,lib,brb,710,730,7mm,bro,all");
+		if(!hdnl)nl.setstring("lau,bfg,thu,lib,brb,710,730,7mm,bro,vul,all");
 		if(!deod)hddeod.SetBool(true);
 	}
 
