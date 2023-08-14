@@ -4,3 +4,4 @@ Valve - Sounds
 Dizzy - Playtesting prior to first unstable build release
 Matt - Base HD code
 WhoDunIt team - Inspiration and reference
+Mikk- - Backstab code grabbed from Critical Shots Mod
