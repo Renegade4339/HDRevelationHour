@@ -278,13 +278,13 @@ class HDMafiaHandler : EventHandler
 				ppp.A_TakeInventory("RedSkull",1);
 				ppp.A_TakeInventory("YellowSkull",1);
 				ppp.A_TakeInventory("BlueSkull",1);
+			}
 		}
-		if((innovictor||murdvictor)&&messagetic==1050){
+	if((innovictor||murdvictor)&&messagetic>=1050){
 			Level.ExitLevel(0, false);
 			murdvictor=false;
 			messagetic==0;
 			innovictor=false;
-			}
 		}
 	}
 
