@@ -226,6 +226,9 @@ class HDMKnife:HDMUnarmedWeapon{
 		}
 		actor punchee=punchline.hitactor;
 
+		//backstab, grabbed from Critical Shots mod (https://forum.zdoom.org/viewtopic.php?t=68078)
+		if((AbsAngle(angle, punchee.angle) < 45) && (AbsAngle(angle, punchee.angle) > 0))dmg*=4;
+
 		//charge!
 		if(invoker.flicked)dmg*=1.5;
 		else dmg+=HDMath.TowardsEachOther(self,punchee)*2;
