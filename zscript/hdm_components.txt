@@ -52,9 +52,10 @@ class HDMTracker : Inventory
 					double vdist=dist.z/HDCONST_ONEMETRE;
 
 					owner.A_Log(StringTable.Localize("$HDM_TRACKER1")..hdist..StringTable.Localize("$HDM_TRACKER2")..vdist..StringTable.Localize("$HDM_TRACKER3"),true);
+					tictimer=0;
+					return;
 				}
 			}
 		}
-		tictimer=0;
 	}
 }
