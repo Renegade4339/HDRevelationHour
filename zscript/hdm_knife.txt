@@ -228,8 +228,9 @@ class HDMKnife:HDMUnarmedWeapon{
 
 		//backstab, grabbed from Critical Shots mod (https://forum.zdoom.org/viewtopic.php?t=68078)
 		if((AbsAngle(angle, punchee.angle) < 45) && (AbsAngle(angle, punchee.angle) > 0)){
+		if(hd_debug)A_Log("BACKSTAB!");
 		punchee.A_StartSound("weapons/shank",CHAN_7,volume:0.6,pitch:0.75);
-		if(punchee.health>0)punchee.damagemobj(self,self,175,"slashing");
+		if(punchee.health>0)punchee.damagemobj(self,self,175,"slashing",DMG_NO_ARMOR);
 		return;
 		}
 
@@ -316,7 +317,7 @@ class HDMKnife:HDMUnarmedWeapon{
 			A_WeaponBusy();
 			A_SetCrosshair(21);
 			A_SetHelpText();
-			A_StartSound("misc/w_pkup",CHAN_WEAPON,CHANF_OVERLAP);
+			A_StartSound("misc/w_pkup",CHAN_WEAPON,CHANF_OVERLAP,pitch:0.65);
 			
 			invoker.weaponstatus[FRAGS_FORCE]=0;
 
