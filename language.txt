@@ -1,6 +1,7 @@
 [enu]
 HDM_TRACKER2=" meters horizontal, ";
 HDM_TRACKER3=" meters vertical.";
+QUITMSG = "Are you sure you want to\nclose the program?";
 
 [en enc eng eni ena enz default]
 
@@ -65,3 +66,43 @@ OB_BLOOPER="Congratulations! %o has died.";
 OB_MPSSHOTGUN="Congratulations! %o has died.";
 OB_MPSHOTGUN="Congratulations! %o has died.";
 OB_MPBFG_BOOM="Congratulations! %o has died.";
+OB_MPDEFAULT = "Congratulations! %o has died.";
+OB_MPTELEFRAG = "Congratulations! %o has died.";
+
+//Quit Messages
+//Formal quit message.
+QUITMSG = "Are you sure you want to\nclose the programme?";
+
+//(Hopefully) Helpful Tips
+QUITMSG1 = "The murderer's tracker will activate\nwhen there are few innocents left.";
+QUITMSG2 = "You'll know if the murderer's close when\nyou hear a loud low-pitched pump sound.";
+QUITMSG3 = "Backstabs can guarantee an instant death.";
+QUITMSG4 = "The boss rifle is worth killing someone\nfast in one shot!";
+QUITMSG5 = "Stick to your buddies to survive!";
+QUITMSG6 = "Take breaks every once in a while.";
+QUITMSG7 = "Causing chaos is a key tactic for\nthe murderer to use to cause innocents\n to kill each other!";
+
+// Funsies
+QUITMSG8 = "You like kissing DERPs don't you?";
+QUITMSG9 = "Liberator my beloved. <3";
+QUITMSG10 = "Press Y to face 4 Archviles\nPress N to face 8 Cyberdemons.";
+QUITMSG11 = "If you're a snek and reading this message,\nyou're cute.\n\nNO EXCEPTIONS!";
+QUITMSG12 = "Archvile my beloved. <3";
+QUITMSG13 = "HEY EVERYBODY--";
+QUITMSG14 = "Do you like caco?";
+
+//No killstreak messages.
+// Spree messages
+SPREEKILLSELF = " ";
+SPREEOVER = " ";
+SPREE5 = " ";
+SPREE10 = " ";
+SPREE15 = " ";
+SPREE20 = " ";
+SPREE25 = " ";
+
+// Mulitkill messages
+MULTI2 = " ";
+MULTI3 = " ";
+MULTI4 = " ";
+MULTI5 = " ";
