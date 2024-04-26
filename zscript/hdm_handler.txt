@@ -62,12 +62,12 @@ class HDMafiaHandler : EventHandler
 		if(pl&&players[e.PlayerNumber].bot)return; //don't count bots. thanks dizzy ^^
 		if((murderer&&pl!=murderer)||(murderera&&pl!=murderera)||(murdererb&&pl!=murdererb)){
 			innocents--;
-				if(innocents<2&&murderer&&!trackerreceived){
+				if(innocents<3&&murderer&&!trackerreceived){
 					murderer.A_Log("$HDM_TRACKERREC",true);
 					murderer.A_GiveInventory("HDMTracker",1);
 					trackerreceived=true;
 					}
-				else if(innocents<2&&!trackerreceived){
+				else if(innocents<5&&!trackerreceived&&(murderera||murdererb)){
 					if(murderera){
 						murderera.A_Log("$HDM_TRACKERREC",true);
 						murderera.A_GiveInventory("HDMTracker",1);
@@ -82,28 +82,29 @@ class HDMafiaHandler : EventHandler
 				if(innocents==halfofinnocents)
 				console.printf(StringTable.Localize("$HDM_INNODECREASE"));
 			}
-		}else if(murderer&&pl==murderer){
-			console.printf(StringTable.Localize("$HDM_MURDDEAD"));
-			innovictor=true;
-			return;
-		}else if((murderera||murdererb)&&((pl==murderera)||(pl==murdererb))){
+		}
+		if(((murderera&&(pl==murderera))||(murdererb&&(pl==murdererb)))){
 			console.printf(StringTable.Localize("$HDM_MURDDEAD2"));
 			if(pl==murderera)murdereraout=true;
 			if(pl==murdererb)murdererbout=true;
 			if(murdereraout&&murdererbout){
-	console.printf(StringTable.Localize("$HDM_MURDDEAD2B"));
+				console.printf(StringTable.Localize("$HDM_MURDDEAD2B"));
 			innovictor=true;
 			}
 			return;
 		}
-		if(innocents<1&&murderer){
-			console.printf(StringTable.Localize("$HDM_MURDWON"));
-			murdvictor=true;
+		else if(murderer&&pl==murderer){
+			console.printf(StringTable.Localize("$HDM_MURDDEAD"));
+			innovictor=true;
 			return;
-			//HDGlobalLivesCounter.Reset(pl);
 		}else if(innocents<1&&(murderera||murdererb)){
 			console.printf(StringTable.Localize("$HDM_MURDWON2"));
 			murdvictor=true;
+			//HDGlobalLivesCounter.Reset(pl);
+		}else if(innocents<1&&murderer){
+			console.printf(StringTable.Localize("$HDM_MURDWON"));
+			murdvictor=true;
+			return;
 			//HDGlobalLivesCounter.Reset(pl);
 		}
 	}
@@ -127,12 +128,12 @@ class HDMafiaHandler : EventHandler
 		Let pl = players[e.PlayerNumber].mo;
 		if((murderer&&pl!=murderer)||(murderera&&pl!=murderera)||(murdererb&&pl!=murdererb)){
 			innocents--;
-				if(innocents<2&&murderer&&!trackerreceived){
+				if(innocents<3&&murderer&&!trackerreceived){
 					murderer.A_Log("$HDM_TRACKERREC",true);
 					murderer.A_GiveInventory("HDMTracker",1);
 					trackerreceived=true;
 					}
-				else if(innocents<2&&!trackerreceived){
+				else if(innocents<5&&!trackerreceived&&(murderera||murdererb)){
 					if(murderera){
 						murderera.A_Log("$HDM_TRACKERREC",true);
 						murderera.A_GiveInventory("HDMTracker",1);
@@ -147,28 +148,28 @@ class HDMafiaHandler : EventHandler
 				if(innocents==halfofinnocents)
 				console.printf(StringTable.Localize("$HDM_INNODECREASE"));
 			}
-		}else if(murderer&&pl==murderer){
-			console.printf(StringTable.Localize("$HDM_MURDGONE"));
-			innovictor=true;
-			return;
-		}else if((murderera||murdererb)&&((pl==murderera)||(pl==murdererb))){
+		}
+		if(((murderera&&(pl==murderera))||(murdererb&&(pl==murdererb)))){
 			console.printf(StringTable.Localize("$HDM_MURDGONE2"));
 			if(pl==murderera)murdereraout=true;
 			if(pl==murdererb)murdererbout=true;
 			if(murdereraout&&murdererbout){
-	console.printf(StringTable.Localize("$HDM_MURDGONE2B"));
+			console.printf(StringTable.Localize("$HDM_MURDGONE2B"));
 			innovictor=true;
 			return;
 			}
-		}
-		if(innocents<1&&murderer){
-			console.printf(StringTable.Localize("$HDM_MURDWON"));
-			murdvictor=true;
+		}else if(murderer&&pl==murderer){
+			console.printf(StringTable.Localize("$HDM_MURDGONE"));
+			innovictor=true;
 			return;
-			//HDGlobalLivesCounter.Reset(pl);
 		}else if(innocents<1&&(murderera||murdererb)){
 			console.printf(StringTable.Localize("$HDM_MURDWON2"));
 			murdvictor=true;
+			//HDGlobalLivesCounter.Reset(pl);
+		}else if(innocents<1&&murderer){
+			console.printf(StringTable.Localize("$HDM_MURDWON"));
+			murdvictor=true;
+			return;
 			//HDGlobalLivesCounter.Reset(pl);
 		}
 	}
